@@ -30,21 +30,7 @@ def signup(request):
     obj.save()
     print("User details saved in the database")
     return Response({'Success': 'User Created'}, status=status.HTTP_201_CREATED)
-    if username and password and email:
-        try:
-            print(f"The {username} are user creation started")
-            print(username,password,email,role)
-            user = User.objects.create_user(username=username, password=password, email=email)
-            print("will print")
-            print(user.id)
-            obj = users(userid=user.id,username=username,email=email,password=password,role=role)
-            obj.save()
-            print("user created")
-            return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response({'error': 'Unable to create user.'}, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
+   
 
 @api_view(['POST'])
 def login(request):
