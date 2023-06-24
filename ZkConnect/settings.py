@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', '.now.sh','*']
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    '127.0.0.1', '.vercel.app', '.now.sh','*'
 ]
 
 CORS_ALLOW_METHODS = [
