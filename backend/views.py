@@ -31,7 +31,7 @@ def signup(request):
         # print("will print")
         # print(user.id)
         with transaction.atomic():
-            obj = users(username=username,email=email,password=password,role=role)
+            obj = users(userid=len(users.objects.all()),username=username,email=email,password=password,role=role)
             obj.save()
             print("user created")
         return Response({'sucess': 'User Created'},status=status.HTTP_201_CREATED)
