@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import users
 
+from django.db import transaction
+
 @api_view()
 def home(request):
     return Response({
@@ -28,9 +30,10 @@ def signup(request):
         # user = User.objects.create_user(username=username, password=password, email=email)
         # print("will print")
         # print(user.id)
-        obj = users(username=username,email=email,password=password,role=role)
-        obj.save()
-        print("user created")
+        with transaction.atomic():
+            obj = users(username=username,email=email,password=password,role=role)
+            obj.save()
+            print("user created")
         return Response({'sucess': 'User Created'},status=status.HTTP_201_CREATED)
         # except:
         #     return Response({'error': 'Unable to create user.'}, status=status.HTTP_400_BAD_REQUEST)
