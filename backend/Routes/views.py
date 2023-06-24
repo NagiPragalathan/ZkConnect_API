@@ -6,7 +6,14 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import users
+from ..models import users
+
+from django.contrib.auth import authenticate, login
+from django.contrib.sessions.backends.db import SessionStore
+from django.middleware.csrf import rotate_token
+from rest_framework.decorators import permission_classes
+
+
 
 @api_view()
 def home(request):
@@ -36,17 +43,29 @@ def signup(request):
             return Response({'error': 'Unable to create user.'+str(e)}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.permissions import AllowAny
 
 @api_view(['POST'])
-def login(request):
+@permission_classes([AllowAny])
+def login_fn(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
     if username and password:
-        user = User.objects.filter(username=username).first()
-        if user and user.check_password(password):
-            # Perform any additional operations or authentication checks here if needed
-            return Response(status=status.HTTP_200_OK)
+        user = authenticate(request._request, username=username, password=password)
+        if user is not None:
+            # Create a new session
+            session = SessionStore()
+            session['user_id'] = user.id
+            session.create()
+
+            # Rotate the CSRF token to prevent potential CSRF attacks
+            rotate_token(request._request)
+
+            # Login the user
+            login(request._request, user)
+
+            return Response({'success': 'Login successful.'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
     else:

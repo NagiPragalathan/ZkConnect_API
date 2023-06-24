@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from backend import views
+from backend.Routes import views, tools
 from ZkConnect import settings
 
 urlpatterns = []
@@ -27,6 +27,9 @@ common = [
     path('admin/', admin.site.urls),
 ]
 
+tools_fn = [
+    path('get_user_data', tools.get_user_data),
+]
 
 login_fn = [
     path('signup/', views.signup, name='signup'),
