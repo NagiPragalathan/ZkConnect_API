@@ -1,0 +1,33 @@
+<link href=
+"https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+          rel="stylesheet">
+
+<div id="button" class="hidden container mx-auto flex justify-center items-center px-4 md:px-10 py-20">
+    <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
+    <button onclick="openModal()" class="bg-white text-gray-800 py-5 px-10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white rounded">Open Modal</button>
+  </div>
+  <div id="modal" class="container mx-auto flex justify-center items-center px-4 md:px-10 py-20">
+    <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
+    <div class="bg-white dark:bg-gray-800 px-3 md:px-4 py-12 flex flex-col justify-center items-center">
+      <div role="img" aria-label="Luxe. Logo.">
+        <img style="
+        width: 110px;
+    " src="https://static.wikia.nocookie.net/harrypotter/images/b/b1/Gryffindor_ClearBG.png/revision/latest?cb=20190222162949">
+      </div>
+      <h1 class="mt-8 md:mt-12 text-3xl lg:text-4xl font-semibold leading-10 text-center text-gray-800 text-center md:w-9/12 lg:w-7/12 dark:text-white">Welcome to the ZkConnect family of Gryffindors !</h1>
+      <p class="mt-10 text-base leading-normal text-center text-gray-600 md:w-9/12 lg:w-7/12 dark:text-white">This is ZkConnect API Webpage you can get the API's here..!</p>
+      <div class="mt-12 md:mt-14 w-full flex justify-center">
+        <button onclick="closeModal()" class="dark:text-white dark:border-white w-full sm:w-auto border border-gray-800 text-base font-medium text-gray-800 py-5 px-14 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800 hover:bg-gray-800 hover:text-white dark:hover:text-white dark:hover:bg-gray-700">Close the Page</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>const openModal = () => {
+    document.getElementById("button").classList.add("hidden");
+    document.getElementById("modal").classList.remove("hidden");
+  };
+  const closeModal = () => {
+    document.getElementById("button").classList.remove("hidden");
+    document.getElementById("modal").classList.add("hidden");
+  };
+  </script>

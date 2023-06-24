@@ -22,7 +22,8 @@ from ZkConnect import settings
 urlpatterns = []
 
 common = [
-    path('', views.home),
+    path('home', views.home),
+    path('', views.welcome_home),
     path('admin/', admin.site.urls),
 ]
 

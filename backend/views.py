@@ -1,18 +1,19 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.shortcuts import render
+from django.contrib.auth.models import User
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
 @api_view()
 def home(request):
     return Response({
         'status' : 200,
         'message' : 'Yes! Django rest FrameWork is Working !!!'
     })
-    
-    
-from django.contrib.auth.models import User
-from rest_framework import status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 
 @api_view(['POST'])
 def signup(request):
@@ -43,3 +44,6 @@ def login(request):
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
+
+def welcome_home(request):
+    return render(request,'welcome_page.html')

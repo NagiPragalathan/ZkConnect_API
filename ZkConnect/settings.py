@@ -27,10 +27,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', '.now.sh','*']
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    '127.0.0.1', '.vercel.app', '.now.sh','*'
-]
+# CORS_ALLOWED_ORIGINS = [
+#     'http://localhost:3000',
+#     '127.0.0.1', '.vercel.app', '.now.sh','*'
+# ]
+
+# ERRORS:
+# ?: (corsheaders.E013) Origin '*' in CORS_ALLOWED_ORIGINS is missing scheme or netloc
+#         HINT: Add a scheme (e.g. https://) or netloc (e.g. example.com).
+# ?: (corsheaders.E013) Origin '.now.sh' in CORS_ALLOWED_ORIGINS is missing scheme or netloc
+#         HINT: Add a scheme (e.g. https://) or netloc (e.g. example.com).
+# ?: (corsheaders.E013) Origin '.vercel.app' in CORS_ALLOWED_ORIGINS is missing scheme or netloc
+#         HINT: Add a scheme (e.g. https://) or netloc (e.g. example.com).
+# ?: (corsheaders.E013) Origin '127.0.0.1' in CORS_ALLOWED_ORIGINS is missing scheme or netloc
+#         HINT: Add a scheme (e.g. https://) or netloc (e.g. example.com).
 
 CORS_ALLOW_METHODS = [
     'GET',
@@ -78,7 +88,7 @@ ROOT_URLCONF = 'ZkConnect.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
