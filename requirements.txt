@@ -5,3 +5,7 @@ pymongo==3.12.3
 django-cors-headers
 dnspython
 requests
+wikipedia
+nltk
+googlesearch-python
+beautifulsoup4
