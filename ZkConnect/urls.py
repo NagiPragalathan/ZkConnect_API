@@ -33,7 +33,7 @@ tools_fn = [
 
 login_fn = [
     path('signup/', views.signup, name='signup'),
-    path('login/', views.login, name='login'),
+    path('login/', views.login_fn, name='login'),
 ]
 
 urlpatterns = urlpatterns + common + login_fn
