@@ -17,20 +17,17 @@ def home(request):
         'status' : 200,
         'message' : 'Yes! Django rest FrameWork is Working !!!'
     })
-
-@api_view(['POST'])
 def signup(request):
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
     role = request.data.get('role')
-    user = User.objects.create_user(username=username, password=password, email=email)
-    print("will print")
-    print(user.id)
-    obj = users(userid=user.id,username=username,email=email,password=password,role=role)
+    # user = User.objects.create_user(username=username, email=email, password=password)
+    # print("User created with username:", username)
+    obj = users(userid=22, username=username, email=email, password=password, role=role)
     obj.save()
-    print("user created")
-    return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
+    print("User details saved in the database")
+    return Response({'Success': 'User Created'}, status=status.HTTP_201_CREATED)
     if username and password and email:
         try:
             print(f"The {username} are user creation started")
