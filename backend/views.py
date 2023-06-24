@@ -7,6 +7,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import users
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from django.contrib.auth import logout
 
 @api_view()
 def home(request):
@@ -31,9 +34,9 @@ def signup(request):
             obj = users(userid=user.id,username=username,email=email,password=password,role=role)
             obj.save()
             print("user created")
-            return Response({'sucess': 'User Created'},status=status.HTTP_201_CREATED)
+            return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({'error': 'Unable to create user.'+e}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Unable to create user.'+str(e)}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -41,16 +44,23 @@ def signup(request):
 def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
-
+    user = authenticate(request, username=username, password=password)
     if username and password:
-        user = User.objects.filter(username=username).first()
-        if user and user.check_password(password):
-            # Perform any additional operations or authentication checks here if needed
-            return Response(status=status.HTTP_200_OK)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page or any other desired action
+            return Response({'Susses': 'Invalid username or password.'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST',])
+def logout_view(request):
+    logout(request)
+    # Redirect to a desired page after logging out
+    return redirect('home')
+
 
 def welcome_home(request):
     return render(request,'welcome_page.html')
