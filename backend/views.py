@@ -18,7 +18,7 @@ def home(request):
         'message' : 'Yes! Django rest FrameWork is Working !!!'
     })
     
-@api_view(['POST'])
+@api_view(['POST','PATCH'])
 def signup(request):
     username = request.data.get('username')
     password = request.data.get('password')
