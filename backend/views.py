@@ -24,6 +24,13 @@ def signup(request):
     password = request.data.get('password')
     email = request.data.get('email')
     role = request.data.get('role')
+    user = User.objects.create_user(username=username, password=password, email=email)
+    print("will print")
+    print(user.id)
+    obj = users(userid=user.id,username=username,email=email,password=password,role=role)
+    obj.save()
+    print("user created")
+    return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
     if username and password and email:
         try:
             print(f"The {username} are user creation started")
