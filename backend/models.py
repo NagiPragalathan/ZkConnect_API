@@ -35,7 +35,7 @@ class SocialLinks(models.Model):
     def __str__(self):
         return f"Social Links for User ID: {self.userid}"
     
-    class Meta:
+    class Meta: 
         verbose_name_plural = "Social Links"
 
 class CompanyDetails(models.Model):

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
+from .models import users
 
 @api_view()
 def home(request):
@@ -20,11 +20,17 @@ def signup(request):
     username = request.data.get('username')
     password = request.data.get('password')
     email = request.data.get('email')
-
+    role = request.data.get('role')
     if username and password and email:
         try:
+            print(f"The {username} are user creation started")
             user = User.objects.create_user(username=username, password=password, email=email)
-            return Response(status=status.HTTP_201_CREATED)
+            print("will print")
+            print(user.id)
+            obj = users(userid=user.id,username=username,email=email,password=password,role=role)
+            obj.save()
+            print("user created")
+            return Response({'sucess': 'User Created'},status=status.HTTP_201_CREATED)
         except:
             return Response({'error': 'Unable to create user.'}, status=status.HTTP_400_BAD_REQUEST)
     else:

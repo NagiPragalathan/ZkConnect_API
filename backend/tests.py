@@ -113,3 +113,19 @@ folder_id = 'your_folder_id'  # ID of the destination folder in Google Drive
 access_token = 'your_access_token'  # Access token with required permissions
 
 upload_image_to_drive()
+
+
+def download_image_from_drive(file_id, output_path):
+    url = f'https://www.googleapis.com/drive/v3/files/{file_id}?alt=media'
+
+    headers = {
+        'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+    }
+
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        with open(output_path, 'wb') as file:
+            file.write(response.content)
+        print('Image downloaded successfully.')
+    else:
+        print('Error occurred while downloading the image:', response.text)
