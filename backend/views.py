@@ -17,6 +17,8 @@ def home(request):
         'status' : 200,
         'message' : 'Yes! Django rest FrameWork is Working !!!'
     })
+    
+@api_view(['POST'])
 def signup(request):
     username = request.data.get('username')
     password = request.data.get('password')
