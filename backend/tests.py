@@ -1,4 +1,4 @@
-from django.test import TestCase
+# from django.test import TestCase
 
 # Create your tests here.
 
@@ -63,3 +63,53 @@ const Login = () => {
 export default Login;
 
 '''
+
+a={
+  "access_token": "ya29.a0AWY7Ckna7Y_ehDdYfaeGA8_SzgPaSsOkkUHbGwfpUcvwyTaM4Z2U01qly6CtsLxW1NVOipKhZoQR1aR7uUDwAtgbSaSBT_H64Afwb77y23K653PB5MqHu_rVc9sEF6zS0an0JTDG2EzDg9StMR7B8RG5XBqKaCgYKAQ0SARASFQG1tDrpF4H9mLrZrqKjntXp-7rxWw0163", 
+  "scope": "https://www.googleapis.com/auth/drive", 
+  "token_type": "Bearer", 
+  "expires_in": 3599, 
+  "refresh_token": "1//04CTHHaBk08vMCgYIARAAGAQSNwF-L9IrOP2Ds7VRIRNCH0mPLB90EuCcmuha8meGc24DabR7gCea83XHGFw2t_P8tJWoZ2Ip5qo"
+}
+
+import os
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload
+from google.oauth2 import service_account
+import json
+a={
+    "Authorization" : "Bearer ya29.a0AWY7Ckna7Y_ehDdYfaeGA8_SzgPaSsOkkUHbGwfpUcvwyTaM4Z2U01qly6CtsLxW1NVOipKhZoQR1aR7uUDwAtgbSaSBT_H64Afwb77y23K653PB5MqHu_rVc9sEF6zS0an0JTDG2EzDg9StMR7B8RG5XBqKaCgYKAQ0SARASFQG1tDrpF4H9mLrZrqKjntXp-7rxWw0163"
+ }
+
+
+import os
+import requests
+
+def upload_image_to_drive():
+    url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
+
+    headers = {
+        'Authorization': "Bearer ya29.a0AWY7Ckna7Y_ehDdYfaeGA8_SzgPaSsOkkUHbGwfpUcvwyTaM4Z2U01qly6CtsLxW1NVOipKhZoQR1aR7uUDwAtgbSaSBT_H64Afwb77y23K653PB5MqHu_rVc9sEF6zS0an0JTDG2EzDg9StMR7B8RG5XBqKaCgYKAQ0SARASFQG1tDrpF4H9mLrZrqKjntXp-7rxWw0163"
+    }
+
+    params = {
+        'name': 'samplefile.jpg',
+    }
+
+    files = {
+        'data': ('metadata', json.dumps(params), 'application/json; charset=UTF-8'),
+        'file': open("C:/Users/nagip/OneDrive/Pictures/download.jpg", 'rb')
+    }
+
+    response = requests.post(url, headers=headers, files=files)
+    if response.status_code == 200:
+        print('Image uploaded successfully.')
+    else:
+        print('Error occurred while uploading the image:', response.text)
+
+# Example usage
+image_path = 'path/to/image.jpg'
+folder_id = 'your_folder_id'  # ID of the destination folder in Google Drive
+access_token = 'your_access_token'  # Access token with required permissions
+
+upload_image_to_drive()
