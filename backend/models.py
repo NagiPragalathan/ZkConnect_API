@@ -15,8 +15,11 @@ class Ind_Profile(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     profile_bio = models.TextField(default="the bio not filled yet.")
+    contact_number = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
     skills = models.CharField(max_length=255)
-    resume_image = models.ImageField(upload_to='Resumes/')
+    resume_image = models.CharField(max_length=255)
+    usr_type = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

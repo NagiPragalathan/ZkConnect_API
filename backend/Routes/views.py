@@ -1,6 +1,3 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import status
@@ -12,7 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.sessions.backends.db import SessionStore
 from django.middleware.csrf import rotate_token
 from rest_framework.decorators import permission_classes
-
+from django.contrib.auth import logout
 
 
 @api_view()
@@ -70,6 +67,12 @@ def login_fn(request):
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def logout_view(request):
+    # Perform any additional logic related to logging out
+    logout(request)
+    return Response({'message': 'Logged out successfully'})
 
 def welcome_home(request):
     return render(request,'welcome_page.html')

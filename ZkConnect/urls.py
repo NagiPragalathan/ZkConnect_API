@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from backend.Routes import views, tools
+from backend.Routes import views, tools, bot, profile
 from ZkConnect import settings
 
 urlpatterns = []
@@ -34,8 +34,16 @@ tools_fn = [
 login_fn = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login_fn, name='login'),
+    path('logout_view/', views.logout_view, name='logout_view'),
 ]
 
-urlpatterns = urlpatterns + common + login_fn
+bot_res = [
+    path('chatbot_res/', bot.chatbot_res, name='chatbot_res'),
+]
+
+profile_fn = [
+    path('profile/', profile.profile_data, name='profile'),
+]
+urlpatterns = urlpatterns + common + login_fn + tools_fn + bot_res + profile_fn
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
