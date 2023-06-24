@@ -21,7 +21,7 @@ def signup(request):
     password = request.data.get('password')
     email = request.data.get('email')
     role = request.data.get('role')
-    print()
+    print(username,password,email,role)
     if username and password and email:
         print(f"The {username} are user creation started")
         print(username,password,email,role)
