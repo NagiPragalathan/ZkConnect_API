@@ -24,6 +24,7 @@ def signup(request):
     if username and password and email:
         try:
             print(f"The {username} are user creation started")
+            print(username,password,email,role)
             user = User.objects.create_user(username=username, password=password, email=email)
             print("will print")
             print(user.id)
