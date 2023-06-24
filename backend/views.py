@@ -36,7 +36,7 @@ def signup(request):
             print("user created")
             return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
         except Exception as e:
-            return Response({'error': 'Unable to create user.'+str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Unable to create user.'}, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({'error': 'Missing required fields.'}, status=status.HTTP_400_BAD_REQUEST)
 
