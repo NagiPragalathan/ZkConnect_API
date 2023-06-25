@@ -98,7 +98,7 @@ def upload_files_to_drive(file_path, metadata):
  
     files = {
         'metadata': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
-        'file': open(file_path, 'rb')
+        'file': file_path
     }
 
     # Upload the file
