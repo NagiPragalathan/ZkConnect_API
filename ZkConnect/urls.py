@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from backend.Routes import views, tools, bot, profile
+from backend.Routes import views, tools, bot, profile, storage
 from ZkConnect import settings
 
 urlpatterns = []
@@ -44,6 +44,12 @@ bot_res = [
 profile_fn = [
     path('profile/', profile.profile_data, name='profile'),
 ]
-urlpatterns = urlpatterns + common + login_fn + tools_fn + bot_res + profile_fn
+
+DB3 = [
+    path('upload_img_file/', storage.upload_file, name='upload_img_file'),
+]
+
+
+urlpatterns = urlpatterns + common + login_fn + tools_fn + bot_res + profile_fn + DB3
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

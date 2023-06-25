@@ -95,7 +95,7 @@ def upload_image_to_drive():
     params = {
         'name': 'samplefile.jpg',
     }
-
+  
     files = {
         'data': ('metadata', json.dumps(params), 'application/json; charset=UTF-8'),
         'file': open("C:/Users/nagip/OneDrive/Pictures/download.jpg", 'rb')
