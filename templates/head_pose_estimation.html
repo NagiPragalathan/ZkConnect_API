@@ -1,0 +1,63 @@
+<!-- detection_app/templates/head_pose_estimation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Head Pose Estimation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f2f2f2;
+        }
+
+        #video-container {
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container"></div>
+
+    <script>
+        // Get the video container element
+        var videoContainer = document.getElementById('video-container');
+
+        // Function to update the video stream
+        function updateVideo(src) {
+            videoContainer.innerHTML = ''; // Clear the previous video
+
+            // Create and append the new video element
+            var videoElement = document.createElement('video');
+            videoElement.src = src;
+            videoElement.autoplay = true;
+            videoElement.playsinline = true;
+            videoContainer.appendChild(videoElement);
+        }
+
+        // Function to fetch the video stream and update it periodically
+        function fetchVideoStream() {
+            // Fetch the video stream from the Django view
+            fetch('/head-pose-estimation/video-stream/')
+                .then(response => response.text())
+                .then(data => {
+                    // Call the updateVideo function with the received stream URL
+                    updateVideo(data);
+
+                    // Call the fetchVideoStream function recursively after a short delay
+                    setTimeout(fetchVideoStream, 100);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Call the fetchVideoStream function to start fetching and updating the video stream
+        fetchVideoStream();
+    </script>
+</body>
+</html>

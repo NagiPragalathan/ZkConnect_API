@@ -56,15 +56,21 @@ class CompanyDetails(models.Model):
 
 class Rec_Profile(models.Model):
     id = models.IntegerField(primary_key=True)
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    userid = models.IntegerField()
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
     profile_bio = models.TextField(default="the bio not filled yet.")
+    contact_number = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    linked_in = models.CharField(max_length=255)
     company_data = models.ForeignKey(
         CompanyDetails,
         on_delete=models.CASCADE,
         default=1  # Set the default value to the primary key of the desired CompanyDetails instance
     )
-    description = models.TextField()
+    no_of_emp = models.CharField(max_length=255)
+    start_date =  models.CharField(max_length=255)
+    logo = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.first_name}"
@@ -139,3 +145,11 @@ class PDF(models.Model):
     name = models.CharField(max_length=255)
     data = models.BinaryField()
     
+class Clims(models.Model):
+    callback_id = models.CharField(max_length=255)
+    status = models.CharField(max_length=255)
+    repo = models.CharField(max_length=255)
+    template_id = models.IntegerField()
+
+    def __str__(self):
+        return self.callback_id

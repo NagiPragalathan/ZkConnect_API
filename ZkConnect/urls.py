@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
-from backend.Routes import views, tools, bot, profile, storage
+from backend.Routes import views, tools, bot, profile, storage, cam
 from ZkConnect import settings
 
 urlpatterns = []
@@ -43,12 +43,15 @@ bot_res = [
 
 profile_fn = [
     path('profile/', profile.profile_data, name='profile'),
+    path('clim_data/', profile.clim_data, name='clim_data'),
 ]
 
 DB3 = [
     path('upload_img_file/', storage.upload_file, name='upload_img_file'),
     path('store_pdf/', storage.store_pdf, name='store_pdf'),
     path('retrieve_pdf/', storage.retrieve_pdf, name='retrieve_pdf'),
+    
+    # path('head_pose_estimation/', cam.head_pose_estimation, name='head_pose_estimation'),
 ]
 
 

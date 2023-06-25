@@ -1,28 +1,47 @@
+# detection_app/views.py
 import cv2
-import base64
+from django.http import StreamingHttpResponse
+from django.views.decorators import gzip
 import numpy as np
+import threading as th
 from django.shortcuts import render
-import mediapipe as mp
+# place holders and global variables
+x = 0
+y = 0
+X_AXIS_CHEAT = 0
+Y_AXIS_CHEAT = 0
 
-def head_pose_estimation(request):
+def pose():
+    global VOLUME_NORM, x, y, X_AXIS_CHEAT, Y_AXIS_CHEAT
+    #############################
     mp_face_mesh = mp.solutions.face_mesh
     face_mesh = mp_face_mesh.FaceMesh(min_detection_confidence=0.5, min_tracking_confidence=0.5)
     cap = cv2.VideoCapture(0)
     mp_drawing = mp.solutions.drawing_utils
+    # mp_drawing_styles = mp.solutions
 
     while cap.isOpened():
         success, image = cap.read()
+        # Flip the image horizontally for a later selfie-view display
+        # Also convert the color space from BGR to RGB
         image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+
+        # To improve performance
         image.flags.writeable = False
+        
+        # Get the result
         results = face_mesh.process(image)
+        
+        # To improve performance
         image.flags.writeable = True
+        
+        # Convert the color space from RGB to BGR
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
-        # Head pose estimation code goes here
         img_h, img_w, img_c = image.shape
         face_3d = []
         face_2d = []
-
+        
         face_ids = [33, 263, 1, 61, 291, 199]
 
         if results.multi_face_landmarks:
@@ -33,6 +52,7 @@ def head_pose_estimation(request):
                     connections=mp_face_mesh.FACEMESH_CONTOURS,
                     landmark_drawing_spec=None)
                 for idx, lm in enumerate(face_landmarks.landmark):
+                    # print(lm)
                     if idx in face_ids:
                         if idx == 1:
                             nose_2d = (lm.x * img_w, lm.y * img_h)
@@ -44,8 +64,8 @@ def head_pose_estimation(request):
                         face_2d.append([x, y])
 
                         # Get the 3D Coordinates
-                        face_3d.append([x, y, lm.z])
-
+                        face_3d.append([x, y, lm.z])       
+                
                 # Convert it to the NumPy array
                 face_2d = np.array(face_2d, dtype=np.float64)
 
@@ -55,9 +75,9 @@ def head_pose_estimation(request):
                 # The camera matrix
                 focal_length = 1 * img_w
 
-                cam_matrix = np.array([[focal_length, 0, img_h / 2],
-                                       [0, focal_length, img_w / 2],
-                                       [0, 0, 1]])
+                cam_matrix = np.array([ [focal_length, 0, img_h / 2],
+                                        [0, focal_length, img_w / 2],
+                                        [0, 0, 1]])
 
                 # The Distance Matrix
                 dist_matrix = np.zeros((4, 1), dtype=np.float64)
@@ -75,6 +95,8 @@ def head_pose_estimation(request):
                 x = angles[0] * 360
                 y = angles[1] * 360
 
+                # print(y)
+
                 # See where the user's head tilting
                 if y < -10:
                     text = "Looking Left"
@@ -85,25 +107,64 @@ def head_pose_estimation(request):
                 else:
                     text = "Forward"
                 text = str(int(x)) + "::" + str(int(y)) + text
+                # print(str(int(x)) + "::" + str(int(y)))
+                # print("x: {x}   |   y: {y}  |   sound amplitude: {amp}".format(x=int(x), y=int(y), amp=audio.SOUND_AMPLITUDE))
+                
+                # Y is left / right
+                # X is up / down
+                if y < -10 or y > 10:
+                    X_AXIS_CHEAT = 1
+                else:
+                    X_AXIS_CHEAT = 0
 
+                if x < -5:
+                    Y_AXIS_CHEAT = 1
+                else:
+                    Y_AXIS_CHEAT = 0
+
+                # print(X_AXIS_CHEAT, Y_AXIS_CHEAT)
                 # Display the nose direction
                 nose_3d_projection, jacobian = cv2.projectPoints(nose_3d, rot_vec, trans_vec, cam_matrix, dist_matrix)
 
                 p1 = (int(nose_2d[0]), int(nose_2d[1]))
                 p2 = (int(nose_3d_projection[0][0][0]), int(nose_3d_projection[0][0][1]))
-
+                
                 cv2.line(image, p1, p2, (255, 0, 0), 2)
 
                 # Add the text on the image
                 cv2.putText(image, text, (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        
+        cv2.imshow('Head Pose Estimation', image)
 
-        # Convert the OpenCV image to base64 format for displaying in HTML
-        _, img_encoded = cv2.imencode('.jpg', image)
-        img_base64 = base64.b64encode(img_encoded.tobytes()).decode('utf-8')
-        img_data = 'data:image/jpeg;base64,' + img_base64
+        if cv2.waitKey(5) & 0xFF == 27:
+            break
 
-        # Pass the image data to the template for rendering
-        context = {'image': img_data}
+    cap.release()
 
-        # Render the template with the image data
-        return render(request, 'head_pose_estimation.html', context)
+def generate_video_stream():
+    cap = cv2.VideoCapture(0)
+
+    while True:
+        success, frame = cap.read()
+        if not success:
+            break
+
+        # Perform the head pose estimation logic on the frame here
+
+        # Encode the frame as JPEG
+        _, jpeg = cv2.imencode('.jpg', frame)
+
+        # Yield the encoded frame as a chunk of the MJPEG stream
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + jpeg.tobytes() + b'\r\n\r\n')
+
+    cap.release()
+
+@gzip.gzip_page
+def video_stream(request):
+    return StreamingHttpResponse(generate_video_stream(), content_type='multipart/x-mixed-replace; boundary=frame')
+
+def head_pose_estimation(request):
+    t1 = th.Thread(target=pose)
+    t1.start()
+    return render(request, 'head_pose_estimation.html')
