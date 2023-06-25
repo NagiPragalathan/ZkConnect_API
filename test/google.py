@@ -6,7 +6,8 @@ def upload_image_to_drive():
     metadata_url = 'https://www.googleapis.com/drive/v3/files'
 
     headers = {
-        "Authorization": "Bearer ya29.a0AWY7CklWLbi1MIIyz7Jm5Q-pofUP9f91HaHpYUiZnP46GslROg95iqmiHWQtCaXZfOSPScjCB3eGtQXT5iYm9LkD77oRBQca_Z1ZSImUULDUf5156zu_ixFJtcbjooBu2ejLFdTcVQBE7MWHjrLXJ6d051CGaCgYKAZQSARMSFQG1tDrpyrg7y-_8wzQ9EgZxl7h_Hw0163"
+        # "access_token": "ya29.a0AWY7CkmeJ1NX7zZLPRVPmaCtwcpLZQ1bgjSV-1wF8QttIt12d2dnl570XzNALxKJjD8n2f52hVhurCOMEb6D09gVMcKa4oX3LaOi_U_4EmU1d3Er61H-KUFQydUeactvsx30ReLFgb0B1xM1sOIc9TuRnPVSYXgaCgYKAYgSARASFQG1tDrpbzUfObZv0-r8ScaUx2k7kg0166",
+        "Authorization": "Bearer ya29.a0AWY7CkmeJ1NX7zZLPRVPmaCtwcpLZQ1bgjSV-1wF8QttIt12d2dnl570XzNALxKJjD8n2f52hVhurCOMEb6D09gVMcKa4oX3LaOi_U_4EmU1d3Er61H-KUFQydUeactvsx30ReLFgb0B1xM1sOIc9TuRnPVSYXgaCgYKAYgSARASFQG1tDrpbzUfObZv0-r8ScaUx2k7kg0166"
     }
 
     metadata = {

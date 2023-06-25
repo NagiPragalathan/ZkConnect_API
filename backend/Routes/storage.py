@@ -38,7 +38,7 @@ def upload_file(request):
     print(uploaded_file)
     filename = request.data.get('file_name')
     headers = {
-        "Authorization": "Bearer ya29.a0AWY7CklWLbi1MIIyz7Jm5Q-pofUP9f91HaHpYUiZnP46GslROg95iqmiHWQtCaXZfOSPScjCB3eGtQXT5iYm9LkD77oRBQca_Z1ZSImUULDUf5156zu_ixFJtcbjooBu2ejLFdTcVQBE7MWHjrLXJ6d051CGaCgYKAZQSARMSFQG1tDrpyrg7y-_8wzQ9EgZxl7h_Hw0163"
+        "Authorization": "Bearer ya29.a0AWY7CkmeJ1NX7zZLPRVPmaCtwcpLZQ1bgjSV-1wF8QttIt12d2dnl570XzNALxKJjD8n2f52hVhurCOMEb6D09gVMcKa4oX3LaOi_U_4EmU1d3Er61H-KUFQydUeactvsx30ReLFgb0B1xM1sOIc9TuRnPVSYXgaCgYKAYgSARASFQG1tDrpbzUfObZv0-r8ScaUx2k7kg0166"
     }
 
     metadata = {
@@ -88,17 +88,21 @@ def upload_file(request):
     return Response({'message': 'Image uploaded successfully', 'webViewLink': webViewLink})
 
 
-def upload_files_to_drive(file_path, metadata):
+def upload_files_to_drive(uploaded_file, filename):
     upload_url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
     metadata_url = 'https://www.googleapis.com/drive/v3/files'
 
     headers = {
-        "Authorization": "Bearer ya29.a0AWY7CklWLbi1MIIyz7Jm5Q-pofUP9f91HaHpYUiZnP46GslROg95iqmiHWQtCaXZfOSPScjCB3eGtQXT5iYm9LkD77oRBQca_Z1ZSImUULDUf5156zu_ixFJtcbjooBu2ejLFdTcVQBE7MWHjrLXJ6d051CGaCgYKAZQSARMSFQG1tDrpyrg7y-_8wzQ9EgZxl7h_Hw0163"
+        "Authorization": "Bearer ya29.a0AWY7CkmeJ1NX7zZLPRVPmaCtwcpLZQ1bgjSV-1wF8QttIt12d2dnl570XzNALxKJjD8n2f52hVhurCOMEb6D09gVMcKa4oX3LaOi_U_4EmU1d3Er61H-KUFQydUeactvsx30ReLFgb0B1xM1sOIc9TuRnPVSYXgaCgYKAYgSARASFQG1tDrpbzUfObZv0-r8ScaUx2k7kg0166"
     }
- 
+
+    metadata = {
+        'name': filename
+    }
+
     files = {
         'metadata': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
-        'file': file_path
+        'file': uploaded_file
     }
 
     # Upload the file
@@ -108,7 +112,7 @@ def upload_files_to_drive(file_path, metadata):
         print('Image uploaded successfully.')
     else:
         print('Error occurred while uploading the image:', response.text)
-        return
+        return {'error': 'Error occurred while uploading the image'}
 
     # Get the shareable link
     shareable_link_url = f'{metadata_url}/{file_id}?fields=webViewLink'
@@ -118,7 +122,7 @@ def upload_files_to_drive(file_path, metadata):
         print('Shareable link:', webViewLink)
     else:
         print('Error occurred while obtaining the shareable link:', response.text)
-        return
+        return {'error': 'Error occurred while obtaining the shareable link'}
 
     # Update permissions to make the file accessible to anyone
     permissions_url = f'{metadata_url}/{file_id}/permissions'
@@ -132,7 +136,8 @@ def upload_files_to_drive(file_path, metadata):
     # Send the request to update permissions
     response = requests.post(permissions_url, headers=headers, json=permission_data)
     if response.status_code == 200:
-        return webViewLink
+        print('Permissions updated successfully.')
     else:
-        return None
+        print('Error occurred while updating permissions:', response.text)
 
+    return {'message': 'Image uploaded successfully', 'webViewLink': webViewLink}
