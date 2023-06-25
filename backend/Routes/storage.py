@@ -19,7 +19,7 @@ def store_pdf(request):
         pdf.save()
         return Response('PDF stored successfully')
 
-@api_view(['GET'])
+@api_view(['POST'])
 def retrieve_pdf(request):
     try:
         name = request.data.get('name')
