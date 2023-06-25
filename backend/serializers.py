@@ -12,3 +12,12 @@ class CurrentUserSerializer(serializers.Serializer):
     username = serializers.CharField()
     email = serializers.EmailField()
     # Add other fields from the user model as needed
+    
+    
+from rest_framework import serializers
+from backend.models import PDF
+
+class PDFSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PDF
+        fields = '__all__'

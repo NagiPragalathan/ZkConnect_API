@@ -134,3 +134,8 @@ class Applyed_jobs(models.Model):
 
     class Meta:
         verbose_name_plural = "Applied Jobs"
+        
+class PDF(models.Model):
+    name = models.CharField(max_length=255)
+    data = models.BinaryField()
+    

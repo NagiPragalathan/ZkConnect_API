@@ -47,6 +47,8 @@ profile_fn = [
 
 DB3 = [
     path('upload_img_file/', storage.upload_file, name='upload_img_file'),
+    path('store_pdf/', storage.store_pdf, name='store_pdf'),
+    path('retrieve_pdf/', storage.retrieve_pdf, name='retrieve_pdf'),
 ]
 
 

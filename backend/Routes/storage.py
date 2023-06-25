@@ -5,6 +5,30 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import os
 
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from backend.models import PDF
+from backend.serializers import PDFSerializer
+
+@api_view(['POST'])
+def store_pdf(request):
+    if request.method == 'POST':
+        name = request.data.get('name')
+        data = request.FILES.get('file').read()
+        pdf = PDF(name=name, data=data)
+        pdf.save()
+        return Response('PDF stored successfully')
+
+@api_view(['GET'])
+def retrieve_pdf(request, name):
+    try:
+        pdf = PDF.objects.get(name=name)
+        serializer = PDFSerializer(pdf)
+        return Response(serializer.data)
+    except PDF.DoesNotExist:
+        return Response('PDF not found', status=404)
+
+
 
 @api_view(['POST'])
 def upload_file(request):
