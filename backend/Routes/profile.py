@@ -29,4 +29,4 @@ def profile_data(request):
     # Save the profile instance to the database
     profile.save()
     
-    return Response({'success': True, 'message': 'Data stored successfully.'})
+    return Response({'success': True, 'message': 'Data stored successfully.',"g_path":g_path})
