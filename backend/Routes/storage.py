@@ -10,7 +10,7 @@ from rest_framework.decorators import api_view
 from backend.models import PDF
 from backend.serializers import PDFSerializer
 
-tocken="ya29.a0AWY7CkmeJ1NX7zZLPRVPmaCtwcpLZQ1bgjSV-1wF8QttIt12d2dnl570XzNALxKJjD8n2f52hVhurCOMEb6D09gVMcKa4oX3LaOi_U_4EmU1d3Er61H-KUFQydUeactvsx30ReLFgb0B1xM1sOIc9TuRnPVSYXgaCgYKAYgSARASFQG1tDrpbzUfObZv0-r8ScaUx2k7kg0166"
+tocken="ya29.a0AWY7CkkypaHqWuCX8F3shwbCW9Yo-llzzbTlrDyd3bN9VPEia5s1TKKD5BH1-GFEKUcSkoiPeG5EL7yg4Ve8_r7KyEwJAtO0Gvh_zKQ3JPoQyNoI1kpLNawEMxHWuWbrDyqibmm_upS8MPXmx1F5MdnGfDNmUUcaCgYKAXMSARASFQG1tDrps0WxCr_Dye7qfjyCswUTDw0166"
 
 @api_view(['POST'])
 def store_pdf(request):
