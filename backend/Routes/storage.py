@@ -113,7 +113,7 @@ def upload_files_to_drive(uploaded_file, filename):
     else:
         print('Error occurred while uploading the image:', response.text)
         return {'error': 'Error occurred while uploading the image'}
-
+  # jdjn vljef
     # Get the shareable link
     shareable_link_url = f'{metadata_url}/{file_id}?fields=webViewLink'
     response = requests.get(shareable_link_url, headers=headers)
