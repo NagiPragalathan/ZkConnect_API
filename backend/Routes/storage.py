@@ -20,8 +20,9 @@ def store_pdf(request):
         return Response('PDF stored successfully')
 
 @api_view(['GET'])
-def retrieve_pdf(request, name):
+def retrieve_pdf(request):
     try:
+        name = request.data.get('name')
         pdf = PDF.objects.get(name=name)
         serializer = PDFSerializer(pdf)
         return Response(serializer.data)
@@ -79,3 +80,5 @@ def upload_file(request):
         return Response({'message': 'File uploaded successfully', 'webViewLink': webViewLink})
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+
+
