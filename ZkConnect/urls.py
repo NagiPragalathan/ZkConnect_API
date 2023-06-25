@@ -43,6 +43,7 @@ bot_res = [
 
 profile_fn = [
     path('profile/', profile.profile_data, name='profile'),
+    path('Rec_Profile_data/', profile.Rec_Profile_data, name='Rec_Profile_data'),
     path('clim_data/', profile.clim_data, name='clim_data'),
 ]
 

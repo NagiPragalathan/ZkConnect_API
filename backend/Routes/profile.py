@@ -44,7 +44,7 @@ def Rec_Profile_data(request):
         userid=int(request.data.get('userid')),
         name=request.data.get('name'),
         email=request.data.get('email'),
-        profile_bio=request.data.get('profile_bio', 'the bio not filled yet.'),
+        profile_bio=request.data.get('profile_bio'),
         contact_number=request.data.get('contact_number'),
         location=request.data.get('location'),
         linked_in=request.data.get('linked_in'),
