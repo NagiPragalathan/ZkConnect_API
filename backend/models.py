@@ -12,6 +12,7 @@ class users(models.Model):
 
 class Ind_Profile(models.Model):
     id = models.IntegerField(primary_key=True)
+    userid = models.IntegerField(unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     profile_bio = models.TextField(default="the bio not filled yet.")

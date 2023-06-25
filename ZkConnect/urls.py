@@ -28,7 +28,7 @@ common = [
 ]
 
 tools_fn = [
-    path('get_user_data', tools.get_current_user_data),
+    path('get_profile_data', tools.get_profile_data),
 ]
 
 login_fn = [

@@ -62,7 +62,7 @@ def login_fn(request):
             # Login the user
             login(request._request, user)
 
-            return Response({'success': 'Login successful.'}, status=status.HTTP_200_OK)
+            return Response({'success': 'Login successful.','id':user.id}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Invalid username or password.'}, status=status.HTTP_401_UNAUTHORIZED)
     else:
