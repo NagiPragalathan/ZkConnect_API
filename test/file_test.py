@@ -13,3 +13,17 @@ response = requests.post(url, files=file_data)
 
 # Print the response from the server
 print(response.json())
+
+{
+        "id":" id",
+        "firstName":" firstName",
+        "lastName":" lastName",
+        "email":" email",
+        "location":" location",
+        "contactNumber":" contactNumber",
+        "profileBio":" profileBio",
+        "file":" resume",
+        "file_name":" resume.name",
+        "type":" selectedButton",
+        "skills":" selectedSkil",
+      }
