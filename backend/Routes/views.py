@@ -35,7 +35,7 @@ def signup(request):
             obj = users(userid=user.id,username=username,email=email,password=password,role=role)
             obj.save()
             print("user created")
-            return Response({'Susses': 'User Created'},status=status.HTTP_201_CREATED)
+            return Response({'Susses': 'User Created','id':obj.id},status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': 'Unable to create user.'+str(e)}, status=status.HTTP_400_BAD_REQUEST)
     else:
