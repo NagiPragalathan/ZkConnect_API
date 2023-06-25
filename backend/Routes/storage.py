@@ -11,6 +11,7 @@ def upload_file(request):
     try:
         uploaded_file = request.FILES.get('file')  # Retrieve the uploaded file
         print(uploaded_file)
+        filename = request.data.get('file_name')
         # Process or save the file as needed
         # Replace this with your own logic to handle file processing or storage
 
@@ -21,12 +22,10 @@ def upload_file(request):
         headers = {
             "Authorization": "Bearer ya29.a0AWY7CkmK67PbjEnnSW8o7OfhVB2OJxoe-h0atv68m_z1ub5qGM93G-8wXxB0hhmm_Ntf-_TayFfOZXWPAbz495yb5d3DAu0Lev5bxFa9iW66N_Eqwd-2ARNH4Q_g2u9M5KrZ2sEdTi_us2ouLEddHUKU_5IeaCgYKAQESARESFQG1tDrpFKbkBLTPbgwuMfVsfxRt0w0163",
         }
-        
-        file_extension = os.path.splitext(uploaded_file.name)[1]
-        print('File extension:', file_extension)
+
         
         metadata = {
-            'name': 'samplefile.jpg'
+            'name': filename
         }
 
         files = {
