@@ -45,11 +45,14 @@ class SocialLinks(models.Model):
 class CompanyDetails(models.Model):
     id = models.IntegerField(primary_key=True)
     company_name = models.CharField(max_length=255)
+    company_email = models.CharField(max_length=255)
+    company_number = models.CharField(max_length=255)
+    company_linkedin = models.CharField(max_length=255)
+    company_location = models.CharField(max_length=255)
     company_bio = models.TextField(default="the bio not filled yet.")
     start_year = models.PositiveIntegerField()
     no_of_emp = models.PositiveIntegerField()
-    social_links = models.OneToOneField(SocialLinks, on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to='logos/')
+    logo = models.CharField(max_length=255)
 
     def __str__(self):
         return self.company_name

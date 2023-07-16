@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from backend.models import Ind_Profile, Clims
+from backend.models import Ind_Profile, Clims, CompanyDetails
 from .storage import upload_files_to_drive
 
 
@@ -30,6 +30,32 @@ def profile_data(request):
     
     return Response({'success': True, 'message': 'Data stored successfully.',"g_path":g_path})
 
+@api_view(['POST'])
+def Store_Company_Details(request):
+    try:
+        print("get len")
+        obj = len(CompanyDetails.objects.all())
+    except:
+        obj = 0
+    print(obj,"length is")
+    company = CompanyDetails(
+        id=obj,
+        company_name=request.data.get('company_name'),
+        company_email=request.data.get('company_email'),
+        company_number=request.data.get('company_number'),
+        company_linkedin=request.data.get('company_linkedin'),
+        company_location=request.data.get('company_location'),
+        company_bio=request.data.get('company_bio'),
+        start_year=request.data.get('start_year'),
+        no_of_emp=request.data.get('no_of_emp'),
+        logo=request.data.get('logo'),
+    )
+    print("created..")
+    
+    # Save the company details to the database
+    company.save()
+    
+    return Response({'success': True, 'message': 'Company details stored successfully.'})
 
 @api_view(['POST'])
 def Rec_Profile_data(request):
